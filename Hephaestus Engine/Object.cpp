@@ -904,7 +904,6 @@ void Object::Run_Particals(){
 			x = Particals[a]->Partical->Return_Float_Value(2);
 			y = Particals[a]->Partical->Return_Float_Value(3);
 			Particals[a]->Partical->New_Colored_Object(Number_Of_Points, Partical_X, Partical_Y, Red, Green, Blue, (Alpha / 10) * Particals[a]->Life, 0);
-			//Particals[a]->Partical->Translate_Object(x, y, 0.0);
 		}
 		if (Particals[a]->Life == 0){
 			Particals.erase(Particals.begin() + a);
@@ -1000,6 +999,8 @@ void Object::New_Color_Physics_Object(int points, float xsize, float ysize, floa
 	Mass = 0;
 	Friction_Static = 0;
 	Friction_Kinetic = 0;
+	Force_X = 0;
+	Force_Y = 0;
 }
 void Object::New_Texture_Physics_Object(string texture, int points, float xsize, float ysize, int colision){
 	Physics->New_Textured_Object(texture, points, xsize, ysize, colision);
@@ -1010,6 +1011,8 @@ void Object::New_Texture_Physics_Object(string texture, int points, float xsize,
 	Mass = 0;
 	Friction_Static = 0;
 	Friction_Kinetic = 0;
+	Force_X = 0;
+	Force_Y = 0;
 }
 void Object::Set_Object_Mass(float mass){
 	Mass = mass;
@@ -1035,14 +1038,38 @@ void Object::Apply_Foce_Axis(float x, float y, float z){
 		Logging::log_error("Unregistered mass of object. Unable to compleate accurate force calculations", "Physics Object");
 		Mass = 1;
 	}
-	To_Accelerate_X = x / Mass;
-	To_Accelerate_Y = y / Mass;
+	Force_X = Force_X + x;
+	Force_Y = Force_Y + y;
 }
 void Object::Apply_Foce_Ange(float theta, float force){
-
+	Force_Y = Force_Y + (force * sin(theta));
+	Force_X = Force_X + (force * cos(theta));
 }
 void Object::Reset_Physics_Data(int Type){
-
+	Velocity_X = 0;
+	Velocity_Y = 0;
+	Acceleration_X = 0;
+	Acceleration_Y = 0;
+	Mass = 0;
+	Friction_Static = 0;
+	Friction_Kinetic = 0;
+	Force_X = 0;
+	Force_Y = 0;
+}
+void Object::Display_Physics_Object(){
+	Physics->Display_Object();
+}
+void Object::Set_Collsion_Objects(vector<Object*> Collisions){
+	for (unsigned i = 0; i < Collisions.size(); i++){
+		Collision_Object* Temp = new Collision_Object();
+		Temp->Center_X = Collisions[i]->Return_Float_Value(2);
+		Temp->Center_Y = Collisions[i]->Return_Float_Value(3);
+		Temp->Max_X = Collisions[i]->Return_Float_Value(6);
+		Temp->Max_Y = Collisions[i]->Return_Float_Value(8);
+		Temp->Min_X = Collisions[i]->Return_Float_Value(7);
+		Temp->Min_Y = Collisions[i]->Return_Float_Value(9);
+		Collision.push_back(Temp);
+	}
 }
 void Object::Run_Physics(){
 
