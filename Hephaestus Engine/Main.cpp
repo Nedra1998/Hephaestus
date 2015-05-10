@@ -25,10 +25,14 @@ int main(){
 	glfwSetWindowSizeCallback(Win, Window_Call);
 	srand(time(NULL));
 	/*>>>>>Place Before Start Code Here<<<<<*/
-	
+	cout << "1";
+	H.Layers[0]->Initilize_Object(6);
+	cout << "2";
+	H.Layers[0]->Physics_Objects[0]->New_Color_Physics_Object(4, 0.1, 0.1, 1.0, 1.0, 1.0, 1.0, 0);
+	cout << "3";
 	while (!glfwWindowShouldClose(Win)){
 		/*>>>>>Place While Running Code Here<<<<<*/
-		H.Layers[0]->Run_All_Particals();
+		cout << "Hi\n";
 		H.Display_All_Layers();
 		H.Frame();
 	}

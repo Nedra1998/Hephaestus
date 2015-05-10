@@ -560,8 +560,11 @@ void Object::New_Colored_Object(int points, float xsize, float ysize, float r, f
 		Colors[d] = Object_Data[13];
 		d++;
 	}
+	cout << "A.A";
 	Genorate_Points();
+	cout << "A.B";
 	Genorate_Colored_Object();
+	cout << "A.C";
 }
 void Object::New_Textured_Object(string texture, int points, float xsize, float ysize, int colision){
 	Texture = texture;
@@ -991,7 +994,10 @@ void Object::Translate_Partical_Spawner(float x, float y, float z){
 
 /*-----Physics Object Functions-----*/
 void Object::New_Color_Physics_Object(int points, float xsize, float ysize, float r, float g, float b, float a, int colision){
+	Physics = new Object();
+	cout << "A";
 	Physics->New_Colored_Object(points, xsize, ysize, r, g, b, a, colision);
+	cout << "B";
 	Velocity_X = 0;
 	Velocity_Y = 0;
 	Acceleration_X = 0;
@@ -1001,8 +1007,10 @@ void Object::New_Color_Physics_Object(int points, float xsize, float ysize, floa
 	Friction_Kinetic = 0;
 	Force_X = 0;
 	Force_Y = 0;
+	cout << "C";
 }
 void Object::New_Texture_Physics_Object(string texture, int points, float xsize, float ysize, int colision){
+	Physics = new Object();
 	Physics->New_Textured_Object(texture, points, xsize, ysize, colision);
 	Velocity_X = 0;
 	Velocity_Y = 0;
@@ -1040,10 +1048,12 @@ void Object::Apply_Foce_Axis(float x, float y, float z){
 	}
 	Force_X = Force_X + x;
 	Force_Y = Force_Y + y;
+	Forces = true;
 }
 void Object::Apply_Foce_Ange(float theta, float force){
 	Force_Y = Force_Y + (force * sin(theta));
 	Force_X = Force_X + (force * cos(theta));
+	Forces = true;
 }
 void Object::Reset_Physics_Data(int Type){
 	Velocity_X = 0;
@@ -1055,6 +1065,8 @@ void Object::Reset_Physics_Data(int Type){
 	Friction_Kinetic = 0;
 	Force_X = 0;
 	Force_Y = 0;
+	Forces = false;
+	Stationary = true;
 }
 void Object::Display_Physics_Object(){
 	Physics->Display_Object();
@@ -1072,5 +1084,10 @@ void Object::Set_Collsion_Objects(vector<Object*> Collisions){
 	}
 }
 void Object::Run_Physics(){
-
+	float Distance_X, Distance_Y, Tic = 1/60;
+	Distance_X = (Velocity_X *Tic) + (0.5 * Acceleration_X * (Tic * Tic));
+	Distance_Y = (Velocity_Y *Tic) + (0.5 * Acceleration_Y * (Tic * Tic));
+	Physics->Translate_Object(Distance_X, Distance_Y, 0.0);
+	Velocity_X = Velocity_X + (Acceleration_X * Tic);
+	Velocity_Y = Velocity_Y + (Acceleration_Y * Tic);
 }

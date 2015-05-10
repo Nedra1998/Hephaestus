@@ -57,9 +57,10 @@ private:
 		float Center_X, Center_Y, Max_X, Max_Y, Min_X, Min_Y;
 	};
 	vector<Collision_Object*> Collision;
-	Object* Physics = new Object();
+	Object* Physics;
 	float Velocity_X, Velocity_Y, Acceleration_X, Acceleration_Y, Mass, Friction_Static, Friction_Kinetic;
 	float Force_X, Force_Y;
+	bool Stationary = true, Forces = false;
 
 	/*>>>>>-----PRIVATE FUNCTIONS-----<<<<<*/
 	/*-----Objects Functions-----*/
