@@ -25,14 +25,13 @@ int main(){
 	glfwSetWindowSizeCallback(Win, Window_Call);
 	srand(time(NULL));
 	/*>>>>>Place Before Start Code Here<<<<<*/
-	cout << "1";
 	H.Layers[0]->Initilize_Object(6);
-	cout << "2";
-	H.Layers[0]->Physics_Objects[0]->New_Color_Physics_Object(4, 0.1, 0.1, 1.0, 1.0, 1.0, 1.0, 0);
-	cout << "3";
+	H.Layers[0]->Physics_Objects[0]->New_Color_Physics_Object(4, 0.01, 0.01, 1.0, 1.0, 1.0, 1.0, 0);
+	H.Layers[0]->Physics_Objects[0]->Accelerate_Physics_Object(0.0, -0.98, 0.0);
+	H.Layers[0]->Physics_Objects[0]->Set_Velocity_Physics_Object(0.0, 0.0, 0.0);
 	while (!glfwWindowShouldClose(Win)){
 		/*>>>>>Place While Running Code Here<<<<<*/
-		cout << "Hi\n";
+		H.Layers[0]->Run_All_Physics();
 		H.Display_All_Layers();
 		H.Frame();
 	}

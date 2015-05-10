@@ -38,7 +38,7 @@ void Layer::Display_All_Partical_Objects(){
 }
 void Layer::Display_All_Physics_Objects(){
 	for (unsigned i = 0; i < Physics_Objects.size(); i++){
-		Physics_Objects[i]->Display_Object();
+		Physics_Objects[i]->Display_Physics_Object();
 	}
 }
 void Layer::Clear_All(){
@@ -86,9 +86,7 @@ void Layer::Run_All_Physics(){
 	}
 }
 void Layer::Initilize_Object(int Catagory){
-	cout << "A";
 	Object* Initilize = new Object();
-	cout << "B";
 	if (Catagory == 1){
 		Colored_Objects.push_back(Initilize);
 	}
@@ -104,9 +102,7 @@ void Layer::Initilize_Object(int Catagory){
 	if (Catagory == 5){
 		Partical_Objects.push_back(Initilize);
 	}
-	cout << "C";
 	if (Catagory == 6){
 		Physics_Objects.push_back(Initilize);
 	}
-	cout << "D";
 }
