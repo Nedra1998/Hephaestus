@@ -922,44 +922,44 @@ void Object::Run_Particals(){
 			}
 			Current_Particals = Current_Particals + To_Spawn;
 			for (int a = 0; a < To_Spawn; a++){
-				Temp_Int = (Velocity_Range_X * 1000) + 1;
+				Temp_Int = (Velocity_Range_X * 1000000) + 1;
 				Range = (rand() % Temp_Int);
 				if ((rand() % 2) == 0){
 					Range = Range * -1;
 				}
-				Range = Range / 1000;
+				Range = Range / 1000000;
 				vx = Spawn_Velocity_X + Range;
-				Temp_Int = (Velocity_Range_Y * 1000) + 1;
+				Temp_Int = (Velocity_Range_Y * 1000000) + 1;
 				Range = (rand() % Temp_Int);
 				if ((rand() % 2) == 0){
 					Range = Range * -1;
 				}
-				Range = Range / 1000;
+				Range = Range / 1000000;
 				vy = Spawn_Velocity_Y + Range;
-				Temp_Int = (Acceleration_Range_X * 1000) + 1;
+				Temp_Int = (Acceleration_Range_X * 1000000) + 1;
 				Range = (rand() % Temp_Int);
 				if ((rand() % 2) == 0){
 					Range = Range * -1;
 				}
-				Range = Range / 1000;
+				Range = Range / 1000000;
 				ax = Spawn_Acceleration_X + Range;
-				Temp_Int = (Acceleration_Range_Y * 1000) + 1;
+				Temp_Int = (Acceleration_Range_Y * 1000000) + 1;
 				Range = (rand() % Temp_Int);
 				if ((rand() % 2) == 0){
 					Range = Range * -1;
 				}
-				Range = Range / 1000;
+				Range = Range / 1000000;
 				ay = Spawn_Acceleration_Y + Range;
 
 				Range = (rand() % Partical_Life_Range);
 				life = Partical_Life + Range;
-				Temp_Int = (Spawner_X * 2000);
+				Temp_Int = (Spawner_X * 200000);
 				x = (rand() % Temp_Int);
-				x = x / 1000;
+				x = x / 100000;
 				x = x - Spawner_X;
-				Temp_Int = (Spawner_Y * 2000);
+				Temp_Int = (Spawner_Y * 200000);
 				y = (rand() % Temp_Int);
-				y = y / 1000;
+				y = y / 100000;
 				y = y - Spawner_Y;
 				Partical_Object* Temp = new Partical_Object;
 				Temp->Acceleration_X = ax;
