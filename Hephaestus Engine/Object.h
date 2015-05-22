@@ -8,6 +8,7 @@ private:
 	int Object_Type;
 	glm::mat4 Model_Matrix, View_Matrix;
 	float Object_Data[16];
+	vector<Object*> Collision_Objects;
 
 	/*-----Colored Object Data-----*/
 	unsigned Uniform_Mvp_Color, Points_Vbo, Color_Vbo, Vao, Uniform_Color;
@@ -89,6 +90,9 @@ public:
 	void Display_Object();
 	void New_Colored_Object(int points, float xsize, float ysize, float r, float g, float b, float a, int colision);
 	void New_Textured_Object(string texture, int points, float xsize, float ysize, int colision);
+	bool Move_Object(float x, float y, float z);
+	void Set_Collision_Set(vector<Object*> Collisions, int Start, int Ignore);
+	void Clear_Collision_Set();
 
 	/*-----Text Object Functions-----*/
 	void Set_Text_Data(int Type, float Value);

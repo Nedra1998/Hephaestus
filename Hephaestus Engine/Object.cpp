@@ -476,11 +476,20 @@ void Object::Translate_Object(float x, float y, float z){
 	Object_Data[9] = Object_Data[9] + y;
 }
 float Object::Return_Float_Value(int val){
+	if (val == 1){
+		return(Object_Data[1]);
+	}
 	if (val == 2){
 		return(Object_Data[2]);
 	}
 	if (val == 3){
 		return(Object_Data[3]);
+	}
+	if (val == 4){
+		return(Object_Data[4]);
+	}
+	if (val == 5){
+		return(Object_Data[5]);
 	}
 	if (val == 6){
 		return(Object_Data[6]);
@@ -493,6 +502,24 @@ float Object::Return_Float_Value(int val){
 	}
 	if (val == 9){
 		return(Object_Data[9]);
+	}
+	if (val == 10){
+		return(Object_Data[10]);
+	}
+	if (val == 11){
+		return(Object_Data[11]);
+	}
+	if (val == 12){
+		return(Object_Data[12]);
+	}
+	if (val == 13){
+		return(Object_Data[13]);
+	}
+	if (val == 14){
+		return(Object_Data[14]);
+	}
+	if (val == 15){
+		return(Object_Data[15]);
 	}
 	if (val == 17){
 		return(Text_Data[7]);
@@ -579,6 +606,42 @@ void Object::New_Textured_Object(string texture, int points, float xsize, float 
 	Read_TGA(Texture);
 	Genorate_Points();
 	Genorate_Textured_Object();
+}
+bool Object::Move_Object(float x, float y, float z){
+	float maxxa, maxya, minxa, minya, maxxb, maxyb, minxb, minyb;
+	bool Move = true;
+	maxxa = Object_Data[6] + x;
+	minxa = Object_Data[7] + x;
+	maxya = Object_Data[8] + y;
+	minya = Object_Data[9] + y;
+	for (unsigned a = 0; a < Collision_Objects.size() && Move == true; a++){
+		maxxb = Collision_Objects[a]->Return_Float_Value(6);
+		minxb = Collision_Objects[a]->Return_Float_Value(7);
+		maxyb = Collision_Objects[a]->Return_Float_Value(8);
+		minyb = Collision_Objects[a]->Return_Float_Value(9);
+		//cout << maxxa << "," << maxya << "," << minxa << "," << minya << endl;
+		//cout << maxxb << "," << maxyb << "," << minxb << "," << minyb << endl;
+		if ((minxa > maxxb || maxxa < minxb || minya > maxyb || maxya < minyb)){
+			Move = true;
+		}
+		else{
+			return(false);
+		}
+	}
+	if (Move == true){
+
+		Translate_Object(x, y, z);
+	}
+}
+void Object::Set_Collision_Set(vector<Object*> Collisions, int Start, int Ignore){
+	for (unsigned a = Start; a < Collisions.size(); a++){
+		if (Collisions[a]->Return_Float_Value(14) == Object_Data[14] && a != Ignore){
+			Collision_Objects.push_back(Collisions[a]);
+		}
+	}
+}
+void Object::Clear_Collision_Set(){
+	Collision_Objects.clear();
 }
 
 /*-----Text Object Functions-----*/
