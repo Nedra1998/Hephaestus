@@ -2,7 +2,7 @@
 using namespace std;
 class Object{
 private:
-	/*>>>>>-----DATA-----<<<<<*/
+	/*>>>>>-----PRIVATE DATA-----<<<<<*/
 
 	/*-----Object Data-----*/
 	int Object_Type;
@@ -58,7 +58,6 @@ private:
 		float Center_X, Center_Y, Max_X, Max_Y, Min_X, Min_Y;
 	};
 	vector<Collision_Object*> Collision;
-	Object* Physics;
 	float Velocity_X, Velocity_Y, Acceleration_X, Acceleration_Y, Mass, Friction_Static, Friction_Kinetic;
 	float Force_X, Force_Y;
 	bool Stationary = true, Forces = false;
@@ -80,6 +79,9 @@ private:
 	/*-----Physics Object Functions-----*/
 
 public:
+	/*>>>>>-----PUBLIC DATA-----<<<<<*/
+	/*-----Physics Data-----*/
+	Object* Physics;
 	/*>>>>>-----PUBLIC FUNCTIONS-----<<<<<*/
 	/*-----Objects Functions-----*/
 	void Edit_Object(int Type, float Value);
@@ -90,7 +92,7 @@ public:
 	void Display_Object();
 	void New_Colored_Object(int points, float xsize, float ysize, float r, float g, float b, float a, int colision);
 	void New_Textured_Object(string texture, int points, float xsize, float ysize, int colision);
-	bool Move_Object(float x, float y, float z);
+	bool Move_Object(float x, float y, float z, int level);
 	void Set_Collision_Set(vector<Object*> Collisions, int Start, int Ignore);
 	void Clear_Collision_Set();
 

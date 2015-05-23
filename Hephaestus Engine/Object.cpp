@@ -603,7 +603,7 @@ void Object::New_Textured_Object(string texture, int points, float xsize, float 
 	Genorate_Points();
 	Genorate_Textured_Object();
 }
-bool Object::Move_Object(float x, float y, float z){
+bool Object::Move_Object(float x, float y, float z, int level){
 	float maxxa, maxya, minxa, minya, maxxb, maxyb, minxb, minyb;
 	bool Move = true;
 	maxxa = Object_Data[6] + x;
@@ -615,12 +615,13 @@ bool Object::Move_Object(float x, float y, float z){
 		minxb = Collision_Objects[a]->Return_Float_Value(7);
 		maxyb = Collision_Objects[a]->Return_Float_Value(8);
 		minyb = Collision_Objects[a]->Return_Float_Value(9);
-		//cout << maxxa << "," << maxya << "," << minxa << "," << minya << endl;
-		//cout << maxxb << "," << maxyb << "," << minxb << "," << minyb << endl;
 		if ((minxa > maxxb || maxxa < minxb || minya > maxyb || maxya < minyb)){
 			Move = true;
 		}
 		else{
+			if (level < 10){
+				Move_Object(x / 1.5, y / 1.5, z / 1.5, level + 1);
+			}
 			return(false);
 		}
 	}
@@ -1140,7 +1141,7 @@ void Object::Run_Physics(){
 	float Distance_X, Distance_Y, Tic = (float)1/(float)60;
 	Distance_X = (Velocity_X *Tic) + (0.5 * Acceleration_X * (Tic * Tic));
 	Distance_Y = (Velocity_Y *Tic) + (0.5 * Acceleration_Y * (Tic * Tic));
-	Physics->Translate_Object(Distance_X, Distance_Y, 0.0);
+	Physics->Move_Object(Distance_X, Distance_Y, 0.0, 0);
 	Velocity_X = Velocity_X + (Acceleration_X * Tic);
 	Velocity_Y = Velocity_Y + (Acceleration_Y * Tic);
 }
