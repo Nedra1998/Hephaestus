@@ -34,6 +34,7 @@ void Window::update_fps_counter(GLFWwindow* windo)
 	if (elapsed_seconds > 1){
 		previous_seconds = current_seconds;
 		double fps = (double)frame_count / elapsed_seconds;
+		//cout << fps << endl;
 		frame_count = 0;
 	}
 	frame_count++;

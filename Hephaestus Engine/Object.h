@@ -12,7 +12,7 @@ private:
 
 	/*-----Colored Object Data-----*/
 	unsigned Uniform_Mvp_Color, Points_Vbo, Color_Vbo, Vao, Uniform_Color;
-	float Colors[120], Points[90];
+	float Colors[400], Points[300];
 
 	/*-----Textured Object Data-----*/
 	GLuint texture_id, texture_vao, program_id, uniform_mytexture;

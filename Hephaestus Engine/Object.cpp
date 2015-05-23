@@ -19,8 +19,12 @@ typedef struct{
 /*>>>>>-----PRIVATE FUNCTIONS-----<<<<<*/
 /*-----Object Functions-----*/
 void Object::Genorate_Points(){
+	if (Object_Data[1] > 100){
+		Logging::log_error("Invalid Point Amount, Maximum of 100", "Object Genoration");
+		Object_Data[1] = 100;
+	}
 	int b = 0;
-	float Xpos, Ypos, Xrad, Yrad, XLength, YLength;
+	float Xpos, Ypos, Xrad, Yrad;
 	float Theta, Pull_Back, Spacing;
 	float radtheta;
 	Pull_Back = 360 / (Object_Data[1] * 2);
@@ -30,17 +34,9 @@ void Object::Genorate_Points(){
 	Yrad = Object_Data[5];
 	for (int a = 0; a < Object_Data[1]; a++){
 		radtheta = Theta * 3.1415 / 180;
-		XLength = Xrad / cos(radtheta);
-		YLength = Yrad / cos(radtheta);
-		if (XLength < 0){
-			XLength = XLength * -1;
-		}
-		if (YLength < 0){
-			YLength = YLength * -1;
-		}
-		Points[b] = XLength * cos(radtheta);
+		Points[b] = Xrad * cos(radtheta);
 		b++;
-		Points[b] = YLength * sin(radtheta);
+		Points[b] = Yrad * sin(radtheta);
 		b++;
 		Points[b] = 0.0;
 		b++;
