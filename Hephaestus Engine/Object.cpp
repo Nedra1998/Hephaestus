@@ -626,9 +626,9 @@ bool Object::Move_Object(float x, float y, float z, int level){
 		}
 	}
 	if (Move == true){
-
 		Translate_Object(x, y, z);
 	}
+	return(Move);
 }
 void Object::Set_Collision_Set(vector<Object*> Collisions, int Start, int Ignore){
 	for (unsigned a = Start; a < Collisions.size(); a++){
@@ -1053,6 +1053,21 @@ void Object::Translate_Partical_Spawner(float x, float y, float z){
 void Object::New_Color_Physics_Object(int points, float xsize, float ysize, float r, float g, float b, float a, int colision){
 	Physics = new Object();
 	Physics->New_Colored_Object(points, xsize, ysize, r, g, b, a, colision);
+	Object_Type = 10;
+	Object_Data[1] = points;
+	Object_Data[2] = 0.0;
+	Object_Data[3] = 0.0;
+	Object_Data[4] = xsize;
+	Object_Data[5] = ysize;
+	Object_Data[6] = xsize;
+	Object_Data[7] = -xsize;
+	Object_Data[8] = ysize;
+	Object_Data[9] = -ysize;
+	Object_Data[10] = r;
+	Object_Data[11] = g;
+	Object_Data[12] = b;
+	Object_Data[13] = a;
+	Object_Data[14] = colision;
 	Velocity_X = 0;
 	Velocity_Y = 0;
 	Acceleration_X = 0;
@@ -1066,6 +1081,18 @@ void Object::New_Color_Physics_Object(int points, float xsize, float ysize, floa
 void Object::New_Texture_Physics_Object(string texture, int points, float xsize, float ysize, int colision){
 	Physics = new Object();
 	Physics->New_Textured_Object(texture, points, xsize, ysize, colision);
+	Texture = texture;
+	Object_Type = 11;
+	Object_Data[1] = points;
+	Object_Data[2] = 0.0;
+	Object_Data[3] = 0.0;
+	Object_Data[4] = xsize;
+	Object_Data[5] = ysize;
+	Object_Data[6] = xsize;
+	Object_Data[7] = -xsize;
+	Object_Data[8] = ysize;
+	Object_Data[9] = -ysize;
+	Object_Data[14] = colision;
 	Velocity_X = 0;
 	Velocity_Y = 0;
 	Acceleration_X = 0;
@@ -1089,6 +1116,12 @@ void Object::Accelerate_Physics_Object(float x, float y, float z){
 }
 void Object::Translate_Physics_Object(float x, float y, float z){
 	Physics->Translate_Object(x, y, z);
+	Object_Data[2] = Object_Data[2] + x;
+	Object_Data[3] = Object_Data[3] + y;
+	Object_Data[6] = Object_Data[6] + x;
+	Object_Data[7] = Object_Data[7] + x;
+	Object_Data[8] = Object_Data[8] + y;
+	Object_Data[9] = Object_Data[9] + y;
 }
 void Object::Set_Velocity_Physics_Object(float x, float y, float z){
 	Velocity_X = x;
@@ -1108,6 +1141,9 @@ void Object::Apply_Foce_Ange(float theta, float force){
 	Force_Y = Force_Y + (force * sin(theta));
 	Force_X = Force_X + (force * cos(theta));
 	Forces = true;
+}
+void Object::Set_Velocity_Reflection(float Percent){
+	Reflection_Percent = Percent;
 }
 void Object::Reset_Physics_Data(int Type){
 	Velocity_X = 0;
@@ -1141,7 +1177,22 @@ void Object::Run_Physics(){
 	float Distance_X, Distance_Y, Tic = (float)1/(float)60;
 	Distance_X = (Velocity_X *Tic) + (0.5 * Acceleration_X * (Tic * Tic));
 	Distance_Y = (Velocity_Y *Tic) + (0.5 * Acceleration_Y * (Tic * Tic));
-	Physics->Move_Object(Distance_X, Distance_Y, 0.0, 0);
+	if (Physics->Move_Object(Distance_X, 0.0, 0.0, 0) == true){
+		Object_Data[2] = Object_Data[2] + Distance_X;
+		Object_Data[6] = Object_Data[6] + Distance_X;
+		Object_Data[7] = Object_Data[7] + Distance_X;
+	}
+	else{
+		Velocity_X = -1 * (Velocity_X * (Reflection_Percent / (float)100));
+	}
+	if (Physics->Move_Object(0.0, Distance_Y, 0.0, 0) == true){
+		Object_Data[3] = Object_Data[3] + Distance_Y;
+		Object_Data[8] = Object_Data[8] + Distance_Y;
+		Object_Data[9] = Object_Data[9] + Distance_Y;
+	}
+	else{
+		Velocity_Y = -1 * (Velocity_Y * (Reflection_Percent / (float)100));
+	}
 	Velocity_X = Velocity_X + (Acceleration_X * Tic);
 	Velocity_Y = Velocity_Y + (Acceleration_Y * Tic);
 }

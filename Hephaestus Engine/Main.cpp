@@ -28,6 +28,15 @@ int main(){
 	int index = 0;
 	H.Layers[0]->Initilize_Object(1);
 	H.Layers[0]->Colored_Objects[0]->New_Colored_Object(4, 0.1, 0.1, 1.0, 1.0, 1.0, 1.0, 1);
+	H.Layers[0]->Colored_Objects[0]->Translate_Object(0.0, -0.8, 0.0);
+
+	H.Layers[0]->Initilize_Object(6);
+	H.Layers[0]->Physics_Objects[index]->New_Color_Physics_Object(4, 0.1, 0.1, 1.0, 0.0, 0.0, 1.0, 1);
+	H.Layers[0]->Physics_Objects[index]->Translate_Physics_Object(0.0, 1.0, 0.0);
+	H.Layers[0]->Physics_Objects[index]->Accelerate_Physics_Object(0.0, -0.2, 0.0);
+	H.Layers[0]->Physics_Objects[index]->Set_Velocity_Reflection(75);
+	H.Layers[0]->Physics_Objects[index]->Physics->Set_Collision_Set(H.Layers[0]->Colored_Objects, 0, 10);
+	H.Layers[0]->Colored_Objects[0]->Set_Collision_Set(H.Layers[0]->Physics_Objects, 0, -1);
 	while (!glfwWindowShouldClose(Win)){
 		/*>>>>>Place While Running Code Here<<<<<*/
 		if (glfwGetKey(Win, GLFW_KEY_A)){
@@ -37,7 +46,7 @@ int main(){
 			H.Layers[0]->Colored_Objects[0]->Move_Object(0.0, 0.01, 0.0, 0);
 		}
 		if (glfwGetKey(Win, GLFW_KEY_S)){
-			H.Layers[0]->Colored_Objects[0]->Move_Object(0.0, -0.01, 0.0, 0);
+			H.Layers[0]->Colored_Objects[0]->Move_Object(0.0, -0.05, 0.0, 0);
 		}
 		if (glfwGetKey(Win, GLFW_KEY_D)){
 			H.Layers[0]->Colored_Objects[0]->Move_Object(0.01, 0.0, 0.0, 0);
@@ -54,7 +63,7 @@ int main(){
 			xp = (float)((rand() % 200) - 100) / (float)100;
 			yp = (float)((rand() % 200) - 100) / (float)100;
 			points = (rand() % 97) + 3;
-			H.Layers[0]->Physics_Objects[index]->New_Color_Physics_Object(30, x, y, r, g, b, 1.0, 1);
+			H.Layers[0]->Physics_Objects[index]->New_Color_Physics_Object(4, x, y, r, g, b, 1.0, 1);
 			H.Layers[0]->Physics_Objects[index]->Translate_Physics_Object(0.0, 1.0, 0.0);
 			H.Layers[0]->Physics_Objects[index]->Accelerate_Physics_Object(0.0, -0.1, 0.0);
 			H.Layers[0]->Physics_Objects[index]->Physics->Set_Collision_Set(H.Layers[0]->Colored_Objects, 0, 10);

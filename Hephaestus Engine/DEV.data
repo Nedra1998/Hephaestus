@@ -16,6 +16,8 @@ Objetcs:
 		7-Textured Partical Spawner
 		8-Colored Partical
 		9-Textured Partical
+		10-Colored Physics Object
+		11-Textured Physics Object
 	(1) = Number of Points
 	(2) = Center X
 	(3) = Center Y

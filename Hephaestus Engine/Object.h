@@ -58,7 +58,7 @@ private:
 		float Center_X, Center_Y, Max_X, Max_Y, Min_X, Min_Y;
 	};
 	vector<Collision_Object*> Collision;
-	float Velocity_X, Velocity_Y, Acceleration_X, Acceleration_Y, Mass, Friction_Static, Friction_Kinetic;
+	float Velocity_X, Velocity_Y, Acceleration_X, Acceleration_Y, Mass, Friction_Static, Friction_Kinetic, Reflection_Percent;
 	float Force_X, Force_Y;
 	bool Stationary = true, Forces = false;
 
@@ -129,6 +129,7 @@ public:
 	void Set_Velocity_Physics_Object(float x, float y, float z);
 	void Apply_Foce_Axis(float x, float y, float z);
 	void Apply_Foce_Ange(float theta, float force);
+	void Set_Velocity_Reflection(float Percent);
 	void Reset_Physics_Data(int Type);
 	void Display_Physics_Object();
 	void Set_Collsion_Objects(vector<Object*> Collisions);
