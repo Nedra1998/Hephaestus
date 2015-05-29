@@ -34,9 +34,11 @@ void Object::Genorate_Points(){
 	Yrad = Object_Data[5];
 	for (int a = 0; a < Object_Data[1]; a++){
 		radtheta = Theta * 3.1415 / 180;
-		Points[b] = Xrad * cos(radtheta);
+		Points[b] = Xrad * cos(radtheta) * 1.41417913;
+		cout << Points[b] << ";";
 		b++;
-		Points[b] = Yrad * sin(radtheta);
+		Points[b] = Yrad * sin(radtheta) * 1.41417913;
+		cout << Points[b] << "\n";
 		b++;
 		Points[b] = 0.0;
 		b++;
@@ -603,29 +605,34 @@ void Object::New_Textured_Object(string texture, int points, float xsize, float 
 	Genorate_Points();
 	Genorate_Textured_Object();
 }
-bool Object::Move_Object(float x, float y, float z, int level){
+int Object::Move_Object(float x, float y, float z, int level){
 	float maxxa, maxya, minxa, minya, maxxb, maxyb, minxb, minyb;
-	bool Move = true;
+	int Move = -1;
 	maxxa = Object_Data[6] + x;
 	minxa = Object_Data[7] + x;
 	maxya = Object_Data[8] + y;
 	minya = Object_Data[9] + y;
-	for (unsigned a = 0; a < Collision_Objects.size() && Move == true; a++){
+	for (unsigned a = 0; a < Collision_Objects.size() && Move == -1; a++){
 		maxxb = Collision_Objects[a]->Return_Float_Value(6);
 		minxb = Collision_Objects[a]->Return_Float_Value(7);
 		maxyb = Collision_Objects[a]->Return_Float_Value(8);
 		minyb = Collision_Objects[a]->Return_Float_Value(9);
 		if ((minxa > maxxb || maxxa < minxb || minya > maxyb || maxya < minyb)){
-			Move = true;
+			Move = -1;
 		}
 		else{
 			if (level < 10){
 				Move_Object(x / 1.5, y / 1.5, z / 1.5, level + 1);
 			}
-			return(false);
+			if (Collision_Objects[a]->Object_Type == 10 || Collision_Objects[a]->Object_Type == 11){
+				Move = a;
+			}
+			else{
+				Move = -2;
+			}
 		}
 	}
-	if (Move == true){
+	if (Move == -1){
 		Translate_Object(x, y, z);
 	}
 	return(Move);
@@ -1077,6 +1084,8 @@ void Object::New_Color_Physics_Object(int points, float xsize, float ysize, floa
 	Friction_Kinetic = 0;
 	Force_X = 0;
 	Force_Y = 0;
+	Reflection_Percent = 0;
+	Transfer_Percent = 0;
 }
 void Object::New_Texture_Physics_Object(string texture, int points, float xsize, float ysize, int colision){
 	Physics = new Object();
@@ -1102,6 +1111,8 @@ void Object::New_Texture_Physics_Object(string texture, int points, float xsize,
 	Friction_Kinetic = 0;
 	Force_X = 0;
 	Force_Y = 0;
+	Reflection_Percent = 0;
+	Transfer_Percent = 0;
 }
 void Object::Set_Object_Mass(float mass){
 	Mass = mass;
@@ -1127,6 +1138,10 @@ void Object::Set_Velocity_Physics_Object(float x, float y, float z){
 	Velocity_X = x;
 	Velocity_Y = y;
 }
+void Object::Add_Velocity_Physics_Object(float x, float y, float z){
+	Velocity_X = Velocity_X + x;
+	Velocity_Y = Velocity_Y + y;
+}
 void Object::Apply_Foce_Axis(float x, float y, float z){
 	float To_Accelerate_X, To_Accelerate_Y;
 	if (Mass == 0){
@@ -1144,6 +1159,9 @@ void Object::Apply_Foce_Ange(float theta, float force){
 }
 void Object::Set_Velocity_Reflection(float Percent){
 	Reflection_Percent = Percent;
+}
+void Object::Set_Velocity_Transfer(float Percent){
+	Transfer_Percent = Percent;
 }
 void Object::Reset_Physics_Data(int Type){
 	Velocity_X = 0;
@@ -1174,18 +1192,25 @@ void Object::Set_Collsion_Objects(vector<Object*> Collisions){
 	}
 }
 void Object::Run_Physics(){
+	int Return = -3;
 	float Distance_X, Distance_Y, Tic = (float)1/(float)60;
 	Distance_X = (Velocity_X *Tic) + (0.5 * Acceleration_X * (Tic * Tic));
 	Distance_Y = (Velocity_Y *Tic) + (0.5 * Acceleration_Y * (Tic * Tic));
-	if (Physics->Move_Object(Distance_X, 0.0, 0.0, 0) == true){
+	Return = Physics->Move_Object(Distance_X, 0.0, 0.0, 0);
+	if (Return == -1){
 		Object_Data[2] = Object_Data[2] + Distance_X;
 		Object_Data[6] = Object_Data[6] + Distance_X;
 		Object_Data[7] = Object_Data[7] + Distance_X;
 	}
 	else{
-		Velocity_X = -1 * (Velocity_X * (Reflection_Percent / (float)100));
+		//Velocity_X = -1 * (Velocity_X * (Reflection_Percent / (float)100));
+		Velocity_X = -1 * (Velocity_X + (Velocity_X / 2));
 	}
-	if (Physics->Move_Object(0.0, Distance_Y, 0.0, 0) == true){
+	if (Return != -1 && Return != -2){
+
+	}
+	Return = Physics->Move_Object(0.0, Distance_Y, 0.0, 0);
+	if (Return == -1){
 		Object_Data[3] = Object_Data[3] + Distance_Y;
 		Object_Data[8] = Object_Data[8] + Distance_Y;
 		Object_Data[9] = Object_Data[9] + Distance_Y;

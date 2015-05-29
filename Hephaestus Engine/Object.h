@@ -5,7 +5,6 @@ private:
 	/*>>>>>-----PRIVATE DATA-----<<<<<*/
 
 	/*-----Object Data-----*/
-	int Object_Type;
 	glm::mat4 Model_Matrix, View_Matrix;
 	float Object_Data[16];
 	vector<Object*> Collision_Objects;
@@ -58,7 +57,7 @@ private:
 		float Center_X, Center_Y, Max_X, Max_Y, Min_X, Min_Y;
 	};
 	vector<Collision_Object*> Collision;
-	float Velocity_X, Velocity_Y, Acceleration_X, Acceleration_Y, Mass, Friction_Static, Friction_Kinetic, Reflection_Percent;
+	float Velocity_X, Velocity_Y, Acceleration_X, Acceleration_Y, Mass, Friction_Static, Friction_Kinetic, Reflection_Percent, Transfer_Percent;
 	float Force_X, Force_Y;
 	bool Stationary = true, Forces = false;
 
@@ -80,6 +79,9 @@ private:
 
 public:
 	/*>>>>>-----PUBLIC DATA-----<<<<<*/
+
+	int Object_Type;
+
 	/*-----Physics Data-----*/
 	Object* Physics;
 	/*>>>>>-----PUBLIC FUNCTIONS-----<<<<<*/
@@ -92,7 +94,7 @@ public:
 	void Display_Object();
 	void New_Colored_Object(int points, float xsize, float ysize, float r, float g, float b, float a, int colision);
 	void New_Textured_Object(string texture, int points, float xsize, float ysize, int colision);
-	bool Move_Object(float x, float y, float z, int level);
+	int Move_Object(float x, float y, float z, int level);
 	void Set_Collision_Set(vector<Object*> Collisions, int Start, int Ignore);
 	void Clear_Collision_Set();
 
@@ -127,11 +129,14 @@ public:
 	void Accelerate_Physics_Object(float x, float y, float z);
 	void Translate_Physics_Object(float x, float y, float z);
 	void Set_Velocity_Physics_Object(float x, float y, float z);
+	void Add_Velocity_Physics_Object(float x, float y, float z);
 	void Apply_Foce_Axis(float x, float y, float z);
 	void Apply_Foce_Ange(float theta, float force);
 	void Set_Velocity_Reflection(float Percent);
+	void Set_Velocity_Transfer(float Percent);
 	void Reset_Physics_Data(int Type);
 	void Display_Physics_Object();
 	void Set_Collsion_Objects(vector<Object*> Collisions);
 	void Run_Physics();
+
 };
