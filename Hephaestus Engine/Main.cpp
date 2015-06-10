@@ -37,11 +37,11 @@ int main(){
 	H.Layers[0]->Initilize_Object(6);
 	H.Layers[0]->Physics_Objects[0]->New_Color_Physics_Object(4, 0.01, 0.01, 1.0, 1.0, 1.0, 1.0, 1);
 	H.Layers[0]->Physics_Objects[0]->Translate_Physics_Object(0.0, 0.0, 0.0);
-	H.Layers[0]->Physics_Objects[0]->Set_Velocity_Physics_Object(-.1, 0.00, 0.0);
-	H.Layers[0]->Physics_Objects[0]->Set_Velocity_Reflection(100);
+	H.Layers[0]->Physics_Objects[0]->Set_Velocity_Physics_Object(1, 0.00, 0.0);
+	H.Layers[0]->Physics_Objects[0]->Set_Velocity_Reflection(125);
 	H.Layers[0]->Physics_Objects[0]->Physics->Set_Collision_Set(H.Layers[0]->Colored_Objects, 0, -1);
 	H.Layers[0]->Colored_Objects[0]->Set_Collision_Set(H.Layers[0]->Physics_Objects, 0, -1);
-	int a;
+	//int a = 0;
 	while (!glfwWindowShouldClose(Win)){
 		/*>>>>>Place While Running Code Here<<<<<*/
 		if (glfwGetKey(Win, GLFW_KEY_W)){
@@ -56,7 +56,9 @@ int main(){
 		if (glfwGetKey(Win, GLFW_KEY_DOWN)){
 			H.Layers[0]->Colored_Objects[1]->Move_Object(0.0, -0.02, 0.0, 0, 0.05);
 		}
-		cin >> a;
+		//cout << a << endl;
+		//a++;
+		//cin >> a;
 		H.Layers[0]->Run_All_Physics();
 		H.Display_All_Layers();
 		H.Frame();
