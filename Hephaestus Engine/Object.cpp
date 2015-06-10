@@ -35,10 +35,8 @@ void Object::Genorate_Points(){
 	for (int a = 0; a < Object_Data[1]; a++){
 		radtheta = Theta * 3.1415 / 180;
 		Points[b] = Xrad * cos(radtheta) * 1.41417913;
-		cout << Points[b] << ";";
 		b++;
 		Points[b] = Yrad * sin(radtheta) * 1.41417913;
-		cout << Points[b] << "\n";
 		b++;
 		Points[b] = 0.0;
 		b++;
@@ -605,37 +603,40 @@ void Object::New_Textured_Object(string texture, int points, float xsize, float 
 	Genorate_Points();
 	Genorate_Textured_Object();
 }
-int Object::Move_Object(float x, float y, float z, int level){
+int Object::Move_Object(float x, float y, float z, int level, float Max_Move){
+	int R = 1;
 	float maxxa, maxya, minxa, minya, maxxb, maxyb, minxb, minyb;
-	int Move = -1;
-	maxxa = Object_Data[6] + x;
-	minxa = Object_Data[7] + x;
-	maxya = Object_Data[8] + y;
-	minya = Object_Data[9] + y;
-	for (unsigned a = 0; a < Collision_Objects.size() && Move == -1; a++){
-		maxxb = Collision_Objects[a]->Return_Float_Value(6);
-		minxb = Collision_Objects[a]->Return_Float_Value(7);
-		maxyb = Collision_Objects[a]->Return_Float_Value(8);
-		minyb = Collision_Objects[a]->Return_Float_Value(9);
-		if ((minxa > maxxb || maxxa < minxb || minya > maxyb || maxya < minyb)){
-			Move = -1;
-		}
-		else{
-			if (level < 10){
-				Move_Object(x / 1.5, y / 1.5, z / 1.5, level + 1);
-			}
-			if (Collision_Objects[a]->Object_Type == 10 || Collision_Objects[a]->Object_Type == 11){
-				Move = a;
+	int Return = -1;
+	while (x > Max_Move || y > Max_Move || z > Max_Move){
+		x = x / 2;
+		y = y / 2;
+		z = z / 2;
+		R++;
+	}
+	while (R > 0){
+		R--;
+		maxxa = Object_Data[6] + x;
+		minxa = Object_Data[7] + x;
+		maxya = Object_Data[8] + y;
+		minya = Object_Data[9] + y;
+		for (unsigned a = 0; a < Collision_Objects.size(); a++){
+			maxxb = Collision_Objects[a]->Return_Float_Value(6);
+			minxb = Collision_Objects[a]->Return_Float_Value(7);
+			maxyb = Collision_Objects[a]->Return_Float_Value(8);
+			minyb = Collision_Objects[a]->Return_Float_Value(9);
+			if (minxa > maxxb || maxxa < minxb || minya > maxyb || maxya < minyb){
+				Translate_Object(x, y, z);
 			}
 			else{
-				Move = -2;
+				if (level < 2){
+					//Move_Object(x/1.5, y/1.5, z/1.5, level + 1, Max_Move);
+				}
+				Return = a;
 			}
 		}
 	}
-	if (Move == -1){
-		Translate_Object(x, y, z);
-	}
-	return(Move);
+	
+	return(Return);
 }
 void Object::Set_Collision_Set(vector<Object*> Collisions, int Start, int Ignore){
 	for (unsigned a = Start; a < Collisions.size(); a++){
@@ -1196,24 +1197,23 @@ void Object::Run_Physics(){
 	float Distance_X, Distance_Y, Tic = (float)1/(float)60;
 	Distance_X = (Velocity_X *Tic) + (0.5 * Acceleration_X * (Tic * Tic));
 	Distance_Y = (Velocity_Y *Tic) + (0.5 * Acceleration_Y * (Tic * Tic));
-	Return = Physics->Move_Object(Distance_X, 0.0, 0.0, 0);
+	Return = Physics->Move_Object(Distance_X, 0.0, 0.0, 0, 0.05);
 	if (Return == -1){
-		Object_Data[2] = Object_Data[2] + Distance_X;
-		Object_Data[6] = Object_Data[6] + Distance_X;
-		Object_Data[7] = Object_Data[7] + Distance_X;
+		//Object_Data[2] = Object_Data[2] + Distance_X;
+		//Object_Data[6] = Object_Data[6] + Distance_X;
+		//Object_Data[7] = Object_Data[7] + Distance_X;
 	}
 	else{
-		//Velocity_X = -1 * (Velocity_X * (Reflection_Percent / (float)100));
-		Velocity_X = -1 * (Velocity_X + (Velocity_X / 2));
+		Velocity_X = -1 * (Velocity_X * (Reflection_Percent / (float)100));
 	}
 	if (Return != -1 && Return != -2){
 
 	}
-	Return = Physics->Move_Object(0.0, Distance_Y, 0.0, 0);
+	Return = Physics->Move_Object(0.0, Distance_Y, 0.0, 0, 0.05);
 	if (Return == -1){
-		Object_Data[3] = Object_Data[3] + Distance_Y;
-		Object_Data[8] = Object_Data[8] + Distance_Y;
-		Object_Data[9] = Object_Data[9] + Distance_Y;
+		//Object_Data[3] = Object_Data[3] + Distance_Y;
+		//Object_Data[8] = Object_Data[8] + Distance_Y;
+		//Object_Data[9] = Object_Data[9] + Distance_Y;
 	}
 	else{
 		Velocity_Y = -1 * (Velocity_Y * (Reflection_Percent / (float)100));
