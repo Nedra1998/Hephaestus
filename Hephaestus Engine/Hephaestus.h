@@ -34,6 +34,8 @@ public:
 	void Clear_All_Layer_Text();
 	void Clear_All_Layer_Button();
 	void Check_All_Buttons(int& Layer, int&Button, int& Action);
+	void Run_All_Physics();
+	void Run_All_Particals();
 	/*>>Creation/Deletion<<*/
 	void Create_New_Layer();
 	void Clear_All_Layers();

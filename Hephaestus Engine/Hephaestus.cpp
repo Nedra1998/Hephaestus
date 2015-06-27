@@ -94,7 +94,7 @@ void Hephaestus::Display_All_Layers(){
 	for (unsigned i = 0; i < Layers.size(); i++){
 		Layers[i]->Display_All();
 	}
-	Top.Display_All();
+	//Top.Display_All();
 }
 void Hephaestus::Clear_All_Layer_Content(){
 	for (unsigned i = 0; i < Layers.size(); i++){
@@ -155,6 +155,16 @@ void Hephaestus::Check_All_Buttons(int& Layer, int&Button, int& Action){
 			Mouse_Button = -1;
 			break;
 		}
+	}
+}
+void Hephaestus::Run_All_Physics(){
+	for (unsigned i = 0; i < Layers.size(); i++){
+		Layers[i]->Run_All_Physics();
+	}
+}
+void Hephaestus::Run_All_Particals(){
+	for (unsigned i = 0; i < Layers.size(); i++){
+		Layers[i]->Run_All_Particals();
 	}
 }
 /*-----Creation/Deletion-----*/

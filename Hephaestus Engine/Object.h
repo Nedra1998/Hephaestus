@@ -136,7 +136,7 @@ public:
 	void Set_Velocity_Transfer(float Percent);
 	void Reset_Physics_Data(int Type);
 	void Display_Physics_Object();
-	void Set_Collsion_Objects(vector<Object*> Collisions);
+	void Set_Collsion_Objects(vector<Object*> Collisions, int Start, int Ignore);
 	void Run_Physics();
 
 };

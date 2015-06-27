@@ -632,7 +632,10 @@ int Object::Move_Object(float x, float y, float z, int level, float Max_Move){
 				if (level < 5){
 					Move_Object(x / 1.5, y / 1.5, z / 1.5, (level + 1), Max_Move);
 				}
-				Return = a;
+				Return = -2;
+				if (Collision_Objects[a]->Object_Type == 10 || Collision_Objects[a]->Object_Type == 11){
+					Return = a;
+				}
 			}
 		}
 		if (Return == -1){
@@ -1183,17 +1186,13 @@ void Object::Reset_Physics_Data(int Type){
 void Object::Display_Physics_Object(){
 	Physics->Display_Object();
 }
-void Object::Set_Collsion_Objects(vector<Object*> Collisions){
-	for (unsigned i = 0; i < Collisions.size(); i++){
-		Collision_Object* Temp = new Collision_Object();
-		Temp->Center_X = Collisions[i]->Return_Float_Value(2);
-		Temp->Center_Y = Collisions[i]->Return_Float_Value(3);
-		Temp->Max_X = Collisions[i]->Return_Float_Value(6);
-		Temp->Max_Y = Collisions[i]->Return_Float_Value(8);
-		Temp->Min_X = Collisions[i]->Return_Float_Value(7);
-		Temp->Min_Y = Collisions[i]->Return_Float_Value(9);
-		Collision.push_back(Temp);
+void Object::Set_Collsion_Objects(vector<Object*> Collisions, int Start, int Ignore){
+	for (unsigned a = Start; a < Collisions.size(); a++){
+		if (Collisions[a]->Return_Float_Value(14) == Object_Data[14] && a != Ignore){
+			Collision_Objects.push_back(Collisions[a]);
+		}
 	}
+	Physics->Set_Collision_Set(Collisions, Start, Ignore);
 }
 void Object::Run_Physics(){
 	int Return = -3;
@@ -1204,8 +1203,16 @@ void Object::Run_Physics(){
 	if (Return != -1){
 		Velocity_X = -1 * (Velocity_X * (Reflection_Percent / (float)100));
 	}
+	if (Return >= 0 && Transfer_Percent != 0){
+		Collision_Objects[Return]->Add_Velocity_Physics_Object(-1* Velocity_X * (Transfer_Percent / (float)100), 0.0, 0.0);
+		Velocity_X = Velocity_X - Velocity_X * (Transfer_Percent / (float)100);
+	}
 	if (Return != -1){
 		Velocity_Y = -1 * (Velocity_Y * (Reflection_Percent / (float)100));
+	}
+	if (Return >= 0 && Transfer_Percent != 0){
+		Collision_Objects[Return]->Add_Velocity_Physics_Object(0.0, -1 * Velocity_Y * (Transfer_Percent / (float)100), 0.0);
+		Velocity_Y = Velocity_Y - Velocity_Y * (Transfer_Percent / (float)100);
 	}
 	Velocity_X = Velocity_X + (Acceleration_X * Tic);
 	Velocity_Y = Velocity_Y + (Acceleration_Y * Tic);
