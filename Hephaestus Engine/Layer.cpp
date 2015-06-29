@@ -54,6 +54,7 @@ void Layer::Clear_All(){
 	Clear_All_Text_Objects();
 	Clear_All_Partical_Objects();
 	Clear_All_Physics_Objects();
+	Clear_All_Animated_Objects();
 }
 void Layer::Clear_All_Colored_Objects(){
 	Colored_Objects.clear();
@@ -73,6 +74,9 @@ void Layer::Clear_All_Partical_Objects(){
 void Layer::Clear_All_Physics_Objects(){
 	Physics_Objects.clear();
 }
+void Layer::Clear_All_Animated_Objects(){
+	Animated_Objects.clear();
+}
 void Layer::Check_All_Buttons(int& Button, float x, float y, float cx, float cy){
 	for (unsigned i = 0; i < Button_Objects.size(); i++){
 		if (Button_Objects[i]->Check_Button_Object(x, y, cx, cy) == true){
@@ -89,6 +93,11 @@ void Layer::Run_All_Particals(){
 void Layer::Run_All_Physics(){
 	for (unsigned i = 0; i < Physics_Objects.size(); i++){
 		Physics_Objects[i]->Run_Physics();
+	}
+}
+void Layer::Run_All_Animations(){
+	for (unsigned i = 0; i < Animated_Objects.size(); i++){
+		Animated_Objects[i]->Run_Animation();
 	}
 }
 void Layer::Initilize_Object(int Catagory){

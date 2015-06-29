@@ -26,8 +26,10 @@ public:
 	void Clear_All_Button_Objects();
 	void Clear_All_Partical_Objects();
 	void Clear_All_Physics_Objects();
+	void Clear_All_Animated_Objects();
 	void Check_All_Buttons(int& Button, float x, float y, float cx, float cy);
 	void Run_All_Particals();
 	void Run_All_Physics();
+	void Run_All_Animations();
 	void Initilize_Object(int Catagory);
 };

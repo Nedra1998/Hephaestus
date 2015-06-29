@@ -30,8 +30,7 @@ int main(){
 
 	while (!glfwWindowShouldClose(Win)){
 		/*>>>>>Place While Running Code Here<<<<<*/
-		H.Layers[0]->Animated_Objects[0]->Run_Animation();
-		H.Display_All_Layers();
+		H.Run();
 		H.Frame();
 	}
 	H.Terminate_Log();

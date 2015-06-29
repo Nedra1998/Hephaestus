@@ -27,15 +27,19 @@ public:
 	void Mouse_Call_Back(GLFWwindow* Win, int button, int action, int mods);
 	/*-----Layers-----*/
 	/*>>Layer Actions<<*/
+	void Run();
 	void Display_All_Layers();
 	void Clear_All_Layer_Content();
 	void Clear_All_Layer_Colored();
 	void Clear_All_Layer_Textured();
 	void Clear_All_Layer_Text();
 	void Clear_All_Layer_Button();
+	void Clear_All_Layer_Physics();
+	void Clear_All_Layer_Animation();
 	void Check_All_Buttons(int& Layer, int&Button, int& Action);
 	void Run_All_Physics();
 	void Run_All_Particals();
+	void Run_All_Animations();
 	/*>>Creation/Deletion<<*/
 	void Create_New_Layer();
 	void Clear_All_Layers();

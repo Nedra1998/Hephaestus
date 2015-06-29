@@ -90,6 +90,12 @@ void Hephaestus::Mouse_Call_Back(GLFWwindow* Win, int button, int action, int mo
 }
 /*>>>>>-----Layers-----<<<<<*/
 /*-----Layer Actions-----*/
+void Hephaestus::Run(){
+	Run_All_Physics();
+	Run_All_Particals();
+	Run_All_Animations();
+	Display_All_Layers();
+}
 void Hephaestus::Display_All_Layers(){
 	for (unsigned i = 0; i < Layers.size(); i++){
 		Layers[i]->Display_All();
@@ -119,6 +125,16 @@ void Hephaestus::Clear_All_Layer_Text(){
 void Hephaestus::Clear_All_Layer_Button(){
 	for (unsigned i = 0; i < Layers.size(); i++){
 		Layers[i]->Clear_All_Button_Objects();
+	}
+}
+void Hephaestus::Clear_All_Layer_Physics(){
+	for (unsigned i = 0; i < Layers.size(); i++){
+		Layers[i]->Clear_All_Physics_Objects();
+	}
+}
+void Hephaestus::Clear_All_Layer_Animation(){
+	for (unsigned i = 0; i < Layers.size(); i++){
+		Layers[i]->Clear_All_Animated_Objects();
 	}
 }
 void Hephaestus::Check_All_Buttons(int& Layer, int&Button, int& Action){
@@ -165,6 +181,11 @@ void Hephaestus::Run_All_Physics(){
 void Hephaestus::Run_All_Particals(){
 	for (unsigned i = 0; i < Layers.size(); i++){
 		Layers[i]->Run_All_Particals();
+	}
+}
+void Hephaestus::Run_All_Animations(){
+	for (unsigned i = 0; i < Layers.size(); i++){
+		Layers[i]->Run_All_Animations();
 	}
 }
 /*-----Creation/Deletion-----*/
