@@ -603,6 +603,27 @@ void Object::New_Textured_Object(string texture, int points, float xsize, float 
 	Genorate_Points();
 	Genorate_Textured_Object();
 }
+void Object::New_Animated_Object(string texture, int points, float xsize, float ysize, int colision, int timer){
+	Directory = texture;
+	Object_Type = 2;
+	Object_Data[1] = points;
+	Object_Data[2] = 0.0;
+	Object_Data[3] = 0.0;
+	Object_Data[4] = xsize;
+	Object_Data[5] = ysize;
+	Object_Data[6] = xsize;
+	Object_Data[7] = -xsize;
+	Object_Data[8] = ysize;
+	Object_Data[9] = -ysize;
+	Object_Data[14] = colision;
+	Timer = timer;
+	Count = 0;
+	Frame = 1;
+	time(&Start);
+	Read_TGA(Directory + " 1");
+	Genorate_Points();
+	Genorate_Textured_Object();
+}
 int Object::Move_Object(float x, float y, float z, int level, float Max_Move){
 	int R = 1, a = 0;
 	float maxxa, maxya, minxa, minya, maxxb, maxyb, minxb, minyb;
@@ -643,6 +664,36 @@ int Object::Move_Object(float x, float y, float z, int level, float Max_Move){
 		}
 	}
 	return(Return);
+}
+void Object::Run_Animation(){
+	time(&End);
+	if (Start != End){
+		Pause_Time = Frames_Per_Seconed / Timer;
+		Start = End;
+		Frames_Per_Seconed = 0;
+		Count = 0;
+	}
+	else{
+		Count++;
+		if (Count >= Pause_Time){
+			string Tester;
+			Texture = Directory + " " + to_string(Frame);
+			Tester = Texture + ".tga";
+			ifstream Check(Tester.c_str());
+			if (!Check.is_open()){
+				Frame = 0;
+				Texture = Directory + " " + to_string(Frame);
+			}
+			else{
+				
+			}
+			Frame++;
+			Read_TGA(Texture);
+			Genorate_Textured_Object();
+			Count = 0;
+		}
+		Frames_Per_Seconed++;
+	}
 }
 void Object::Set_Collision_Set(vector<Object*> Collisions, int Start, int Ignore){
 	for (unsigned a = Start; a < Collisions.size(); a++){

@@ -20,6 +20,9 @@ private:
 	unsigned int width, height;
 	string Texture;
 
+	/*-----Animated Object Data-----*/
+	time_t Start, End;
+	int Frames_Per_Seconed, Pause_Time, Timer, Count, Frame;
 	/*-----Text Object Data-----*/
 	float Text_Data[10];
 	string Charictars[400];
@@ -94,7 +97,9 @@ public:
 	void Display_Object();
 	void New_Colored_Object(int points, float xsize, float ysize, float r, float g, float b, float a, int colision);
 	void New_Textured_Object(string texture, int points, float xsize, float ysize, int colision);
+	void New_Animated_Object(string texture, int points, float xsize, float ysize, int colision, int timer);
 	int Move_Object(float x, float y, float z, int level, float Max_Move);
+	void Run_Animation();
 	void Set_Collision_Set(vector<Object*> Collisions, int Start, int Ignore);
 	void Clear_Collision_Set();
 

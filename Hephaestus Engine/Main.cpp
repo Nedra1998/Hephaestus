@@ -25,11 +25,12 @@ int main(){
 	glfwSetWindowSizeCallback(Win, Window_Call);
 	srand(time(NULL));
 	/*>>>>>Place Before Start Code Here<<<<<*/
-	
+	H.Layers[0]->Initilize_Object(7);
+	H.Layers[0]->Animated_Objects[0]->New_Animated_Object("Textures/Test/A", 4, 1, 1, 0, 100);
 
 	while (!glfwWindowShouldClose(Win)){
 		/*>>>>>Place While Running Code Here<<<<<*/
-		
+		H.Layers[0]->Animated_Objects[0]->Run_Animation();
 		H.Display_All_Layers();
 		H.Frame();
 	}

@@ -10,6 +10,7 @@ void Layer::Display_All(){
 	Display_All_Text_Objects();
 	Display_All_Partical_Objects();
 	Display_All_Physics_Objects();
+	Display_All_Animated_Objects();
 }
 void Layer::Display_All_Colored_Objects(){
 	for (unsigned i = 0; i < Colored_Objects.size(); i++){
@@ -39,6 +40,11 @@ void Layer::Display_All_Partical_Objects(){
 void Layer::Display_All_Physics_Objects(){
 	for (unsigned i = 0; i < Physics_Objects.size(); i++){
 		Physics_Objects[i]->Display_Physics_Object();
+	}
+}
+void Layer::Display_All_Animated_Objects(){
+	for (unsigned i = 0; i < Animated_Objects.size(); i++){
+		Animated_Objects[i]->Display_Object();
 	}
 }
 void Layer::Clear_All(){
@@ -104,5 +110,8 @@ void Layer::Initilize_Object(int Catagory){
 	}
 	if (Catagory == 6){
 		Physics_Objects.push_back(Initilize);
+	}
+	if (Catagory == 7){
+		Animated_Objects.push_back(Initilize);
 	}
 }
